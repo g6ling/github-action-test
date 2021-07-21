@@ -16,9 +16,10 @@ on:
         default: ''
   push:
     branches:
-      - "master"
-    tags:
-      - '*'
+      - master
+  release:
+    types: # This configuration does not affect the page_build event above
+      - created
 
 jobs:
   publish:
