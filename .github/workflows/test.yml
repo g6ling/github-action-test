@@ -22,8 +22,8 @@ on:
       - created
 
 env:
-  name: ${{ "$GITHUB_EVENT_NAME" == 'workflow_dispatch' && 'workflow_dispatch' || ("$GITHUB_EVENT_NAME" == 'release' && 'release' || 'push') }}
-  stack: ${{ "$GITHUB_EVENT_NAME" == 'workflow_dispatch' && github.event.inputs.stack || ("$GITHUB_EVENT_NAME" == 'release' && 'qa' || 'prod') }}
+  name: ${{ github.event.name == 'workflow_dispatch' && 'workflow_dispatch' || (github.event.name == 'release' && 'release' || 'push') }}
+  stack: ${{ github.event.name == 'workflow_dispatch' && github.event.inputs.stack || (github.event.name == 'release' && 'qa' || 'prod') }}
 jobs:
   publish:
     runs-on: ubuntu-latest
