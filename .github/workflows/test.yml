@@ -22,6 +22,7 @@ on:
       - created
 
 env:
+  version: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.version || (github.event_name == 'release' && github.event.release.name || github.event.head_commit.id ) }}
   name: ${{ github.event_name == 'workflow_dispatch' && 'workflow_dispatch' || (github.event_name == 'release' && 'release' || 'push') }}
   stack: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.stack || (github.event_name == 'release' && 'qa' || 'prod') }}
 jobs:
@@ -33,9 +34,11 @@ jobs:
       env:
         GITHUB_CONTEXT: ${{ toJSON(github) }}
       run: echo "$GITHUB_CONTEXT"
-    - name: 'Test'
-      run: echo "$GITHUB_EVENT_NAME"
-    - name: 'Test'
-      run: echo "$name"
+    - name: 'head commit'
+      env:
+        head_commit: ${{ github.event.head_commit.id }}
+      run: echo "$head_commit"
+    - name: 'version'
+      run: echo "$version"
     - name: 'Test'
       run: echo "$stack"
