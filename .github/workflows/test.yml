@@ -21,6 +21,9 @@ on:
     types: # This configuration does not affect the page_build event above
       - created
 
+env:
+  name: ${{ "$GITHUB_EVENT_NAME" == 'workflow_dispatch' && 'workflow_dispatch' || "$GITHUB_EVENT_NAME" == 'release' && 'release' || 'push' }}
+  stack: ${{ "$GITHUB_EVENT_NAME" == 'workflow_dispatch' && github.event.inputs.stack || "$GITHUB_EVENT_NAME" == 'release' && 'qa' || 'prod' }}
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -28,3 +31,7 @@ jobs:
     steps:
     - name: 'Test'
       run: echo "$GITHUB_EVENT_NAME"
+    - name: 'Test'
+      run: echo "$name"
+    - name: 'Test'
+      run: echo "$stack"
